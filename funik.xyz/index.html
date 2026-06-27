@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funik — Приватный Minecraft Клиент</title>
+    <!-- Google Fonts: Outfit (modern tech display) & Inter (clean readable body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons for clean premium look -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Interactive spotlight glow that follows the cursor -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Ambient background glows -->
+    <div class="ambient-glow">
+        <div class="glow-sphere glow-sphere-1"></div>
+        <div class="glow-sphere glow-sphere-2"></div>
+    </div>
+
+    <div class="top-navigation-wrapper">
+    <!-- Beta Test Announcement Banner -->
+    <div class="header-notice-bar" id="noticeBeta">
+        <div class="container notice-bar-container">
+            <span class="notice-bar-badge">Бета-тест</span>
+            <span class="notice-bar-text">В ближайшее время стартует закрытое бета-тестирование клиента Funik. Следите за новостями!</span>
+        </div>
+    </div>
+    
+    <!-- Dev warning banner -->
+    <div class="header-notice-bar" id="noticeDev" style="background: rgba(239, 68, 68, 0.15); border-bottom: 1px solid rgba(239, 68, 68, 0.25);">
+        <div class="container notice-bar-container">
+            <span class="notice-bar-badge" style="background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);">Разработка</span>
+            <span class="notice-bar-text">На данный момент клиент находится в активной разработке, точная дата выхода неизвестна.</span>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="#" class="logo-link" id="logo">
+                <span class="logo-text">FUNIK</span>
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="#" class="nav-item active">Главная</a>
+                <a href="/buy.html" class="nav-item">Купить</a>
+                <a href="#features" class="nav-item">Возможности</a>
+                <a href="#showcase" class="nav-item">Обзор</a>
+                <a href="#footer" class="nav-item">Контакты</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="/auth.html?mode=login" class="btn btn-secondary btn-sm" id="btnHeaderAuth">
+                    <i class="fa-solid fa-right-to-bracket"></i> Войти
+                </a>
+                <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                    <i class="fa-solid fa-cart-shopping"></i> Купить
+                </a>
+            </div>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Открыть меню">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+</div>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="container hero-container">
+                <div class="hero-wrapper">
+                    <div class="hero-badge" id="heroBadge">
+                        <span class="badge-icon"><i class="fa-solid fa-circle-dot"></i></span>
+                        <span class="badge-text">ПРИВАТНЫЙ КЛИЕНТ MINECRAFT</span>
+                    </div>
+                    
+                    <h1 class="hero-title" id="heroTitle">
+                        Почувствуй превосходство<br>с нашим решением
+                    </h1>
+                    
+                    <p class="hero-description" id="heroDescription">
+                        Современные функции, надежная защита, быстрая производительность, частые обновления. Все есть в нашем решении!
+                    </p>
+                    
+                    <div class="hero-buttons" id="heroButtons">
+                        <a href="/FunikLoader.exe" class="btn btn-primary btn-lg" id="btnHeroDownload" download>
+                            <i class="fa-solid fa-download"></i> Скачать лаунчер
+                        </a>
+                        <a href="/auth.html?mode=register" class="btn btn-secondary btn-lg" id="btnHeroAuth">
+                            <i class="fa-solid fa-user-plus"></i> Создать аккаунт
+                        </a>
+                    </div>
+
+                    <div class="hero-metrics" id="heroMetrics">
+                        <div class="metric-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Защита сессий</span>
+                        </div>
+                        <div class="metric-item">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span>Максимум FPS</span>
+                        </div>
+                        <div class="metric-item">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span>Авто-обновления</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Почему выбирают нас</h2>
+                    <p class="section-subtitle">Все, что нужно для идеального опыта</p>
+                </div>
+
+                <div class="features-grid">
+                    <!-- Community Card (No fake stats, focus on beta) -->
+                    <div class="feature-card" id="cardCommunity">
+                        <div class="card-glow"></div>
+                        <div class="card-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="card-title">
+                            <span class="arrow-indicator">-></span>Сообщество
+                        </h3>
+                        <p class="card-text">
+                            Присоединяйтесь к закрытому тестированию нашего клиента. Делитесь мнением, оставляйте отзывы и общайтесь напрямую с первыми участниками для развития проекта.
+                        </p>
+                    </div>
+
+                    <!-- Updates Card -->
+                    <div class="feature-card" id="cardUpdates">
+                        <div class="card-glow"></div>
+                        <div class="card-icon">
+                            <i class="fa-solid fa-code-compare"></i>
+                        </div>
+                        <h3 class="card-title">
+                            <span class="arrow-indicator">-></span>Обновления
+                        </h3>
+                        <p class="card-text">
+                            Регулярные обновления, свежие обходы защит и заметные улучшения по геймплею. Новые функции и хотфиксы выходят быстро, чтобы клиент всегда оставался актуальным.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Gameplay Showcase Section (Clean Video Placeholder, No Generated Images) -->
+        <section class="showcase-section" id="showcase">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Смотрите наш клиент в действии</h2>
+                    <p class="section-subtitle">Узнайте, как наше решение работает в реальном геймплее</p>
+                </div>
+
+                <div class="showcase-viewport-wrapper">
+                    <div class="showcase-window">
+                        <div class="window-header">
+                            <div class="window-dot red"></div>
+                            <div class="window-dot yellow"></div>
+                            <div class="window-dot green"></div>
+                            <div class="window-title">Funik Client — Официальный видеообзор</div>
+                        </div>
+                        <div class="window-body">
+                            <!-- Clean Glassmorphic Video Placeholder ready for embed -->
+                            <div class="video-placeholder-container">
+                                <div class="video-placeholder-content">
+                                    <div class="play-icon-wrapper">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <h3>Видеообзор появится в ближайшее время</h3>
+                                    <p>Мы готовим детальный обзор функций, обходов и настроек нашего клиента.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#" class="footer-logo">FUNIK</a>
+                <p class="footer-desc">Приватный игровой клиент нового поколения с максимальным FPS, передовыми функциями и встроенной защитой сессий.</p>
+            </div>
+            
+            <div class="footer-links-group">
+                <div class="footer-links-col">
+                    <h4>Навигация</h4>
+                    <a href="#">Главная</a>
+                    <a href="#features">Возможности</a>
+                    <a href="#showcase">Обзор</a>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Документы</h4>
+                    <a href="/privacy.html">Политика конфиденциальности</a>
+                    <a href="#">Условия использования</a>
+                    <a href="#">Публичная оферта</a>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Контакты</h4>
+                    <a href="mailto:support@funik.xyz" class="contact-link"><i class="fa-solid fa-envelope"></i> Email</a>
+                    <a href="https://t.me/funikdll" target="_blank" class="contact-link"><i class="fa-solid fa-paper-plane"></i> Telegram</a>
+                    <a href="https://discord.gg/Zp9p7eGHM6" target="_blank" class="contact-link"><i class="fa-brands fa-discord"></i> Discord</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p class="copyright">© 2026 Funik. Все права защищены. Разработано в современном стиле.</p>
+                <div class="footer-bottom-badge">v1.0.0-Beta</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom App Script -->
+    <script src="app.js"></script>
+    <script>
+        // Dynamic user state check
+        function generateSubSignature(username, tier) {
+            let str = username + '|' + (tier || 'none') + '|FUNIK_SECURE_SALT_9938';
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+                hash = hash & hash;
+            }
+            return hash.toString(16);
+        }
+
+        function updateAuthState() {
+            const loggedInUser = localStorage.getItem('funik_logged_in_user');
+            const users = JSON.parse(localStorage.getItem('funik_users') || '[]');
+            const user = loggedInUser ? users.find(u => u.username.toLowerCase() === loggedInUser.toLowerCase()) : null;
+            
+            // Check sub signature for anti-tamper security
+            let hasSub = false;
+            if (user && user.subscription) {
+                const expectedSig = generateSubSignature(user.username, user.subscription.tier);
+                if (user.subSignature === expectedSig) {
+                    hasSub = true;
+                } else {
+                    // Tampering detected! Reset it
+                    user.subscription = null;
+                    user.subSignature = generateSubSignature(user.username, null);
+                    localStorage.setItem('funik_users', JSON.stringify(users));
+                }
+            }
+            
+            // 1. Update Header Actions
+            const headerActions = document.querySelector('.header-actions');
+            if (headerActions) {
+                if (loggedInUser) {
+                    if (hasSub) {
+                        headerActions.innerHTML = `
+                            <a href="/profile.html" class="btn btn-secondary btn-sm" id="btnHeaderUser">
+                                <i class="fa-solid fa-user"></i> Аккаунт
+                            </a>
+                            <a href="/FunikLoader.exe" class="btn btn-primary btn-sm" id="btnHeaderDownload" download>
+                                <i class="fa-solid fa-download"></i> Скачать
+                            </a>
+                        `;
+                    } else {
+                        headerActions.innerHTML = `
+                            <a href="/profile.html" class="btn btn-secondary btn-sm" id="btnHeaderUser">
+                                <i class="fa-solid fa-user"></i> Аккаунт
+                            </a>
+                            <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                                <i class="fa-solid fa-cart-shopping"></i> Купить
+                            </a>
+                        `;
+                    }
+                } else {
+                    headerActions.innerHTML = `
+                        <a href="/auth.html?mode=login" class="btn btn-secondary btn-sm" id="btnHeaderAuth">
+                            <i class="fa-solid fa-right-to-bracket"></i> Войти
+                        </a>
+                        <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                            <i class="fa-solid fa-cart-shopping"></i> Купить
+                        </a>
+                    `;
+                }
+            }
+
+            // 2. Update Hero Buttons
+            const heroButtons = document.getElementById('heroButtons');
+            if (heroButtons) {
+                if (loggedInUser) {
+                    if (hasSub) {
+                        heroButtons.innerHTML = `
+                            <a href="/FunikLoader.exe" class="btn btn-primary btn-lg" id="btnHeroDownload" download>
+                                <i class="fa-solid fa-download"></i> Скачать лаунчер
+                            </a>
+                            <a href="/profile.html" class="btn btn-secondary btn-lg" id="btnHeroProfile">
+                                <i class="fa-solid fa-user"></i> Свой аккаунт
+                            </a>
+                        `;
+                    } else {
+                        heroButtons.innerHTML = `
+                            <a href="/buy.html" class="btn btn-primary btn-lg" id="btnHeroBuy">
+                                <i class="fa-solid fa-cart-shopping"></i> Купить подписку
+                            </a>
+                            <a href="/profile.html" class="btn btn-secondary btn-lg" id="btnHeroProfile">
+                                <i class="fa-solid fa-user"></i> Свой аккаунт
+                            </a>
+                        `;
+                    }
+                } else {
+                    heroButtons.innerHTML = `
+                        <a href="/buy.html" class="btn btn-primary btn-lg" id="btnHeroBuy">
+                            <i class="fa-solid fa-cart-shopping"></i> Купить доступ
+                        </a>
+                        <a href="/auth.html?mode=register" class="btn btn-secondary btn-lg" id="btnHeroAuth">
+                            <i class="fa-solid fa-user-plus"></i> Создать аккаунт
+                        </a>
+                    `;
+                }
+            }
+
+        }
+
+        // Run on page load
+        window.addEventListener('DOMContentLoaded', updateAuthState);
+    </script>
+</body>
+</html>

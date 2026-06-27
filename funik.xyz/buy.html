@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUNIK — Купить доступ</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Link Global Style -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Custom page styles for Store Portal */
+        .store-section {
+            position: relative;
+            padding: calc(var(--nav-wrapper-height, 160px) + 60px) 0 100px 0;
+            z-index: 2;
+            text-align: center;
+        }
+
+        /* 4-Column Access Tiers Grid */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+            margin-bottom: 48px;
+        }
+
+        .store-card {
+            position: relative;
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 40px 28px;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        .store-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(var(--color-ice-rgb), 0.15);
+            transition: var(--transition-smooth);
+        }
+
+        /* Hover states */
+        .store-card:hover {
+            transform: translateY(-6px);
+            background: var(--bg-glass-hover);
+            border-color: var(--border-glass-hover);
+            box-shadow: 0 30px 60px rgba(var(--color-primary-rgb), 0.1), inset 0 0 20px rgba(var(--color-ice-rgb), 0.05);
+        }
+
+        .store-card:hover::before {
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-ice) 100%);
+        }
+
+        /* Popular / Best value badge */
+        .store-card.popular {
+            border-color: rgba(var(--color-ice-rgb), 0.3);
+            box-shadow: 0 20px 50px rgba(var(--color-primary-rgb), 0.15);
+        }
+
+        .store-card.popular::before {
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-ice) 100%);
+            height: 4px;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: linear-gradient(135deg, var(--color-ice) 0%, var(--color-primary) 100%);
+            color: #ffffff;
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(var(--color-ice-rgb), 0.3);
+        }
+
+        .tier-duration {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .tier-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .tier-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .price-val {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .price-cur {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-ice);
+            margin-left: 4px;
+        }
+
+        .tier-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 32px 0;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tier-features li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tier-features li i {
+            color: var(--color-ice);
+            font-size: 0.95rem;
+            text-shadow: 0 0 8px rgba(var(--color-ice-rgb), 0.4);
+        }
+
+        /* HWID Reset Section */
+        .hwid-section {
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            background: linear-gradient(135deg, rgba(6, 12, 29, 0.5) 0%, rgba(4, 8, 22, 0.8) 100%);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 40px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: left;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hwid-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 100% 50%, rgba(var(--color-ice-rgb), 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hwid-section:hover {
+            border-color: var(--border-glass-hover);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(var(--color-ice-rgb), 0.05);
+            transform: translateY(-4px);
+        }
+
+        .hwid-info {
+            max-width: 480px;
+        }
+
+        .hwid-badge {
+            display: inline-block;
+            background: rgba(var(--color-ice-rgb), 0.08);
+            border: 1px solid rgba(var(--color-ice-rgb), 0.2);
+            color: var(--color-ice);
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .hwid-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .hwid-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .hwid-action {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .hwid-price {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .hwid-price-val {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .hwid-price-cur {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-ice);
+        }
+
+        /* Store Modal */
+        .store-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 4, 9, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .store-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-glass-hover);
+            border-radius: 24px;
+            max-width: 460px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7), 0 0 50px rgba(var(--color-primary-rgb), 0.15);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .store-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            padding: 4px;
+        }
+
+        .modal-close:hover {
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(var(--color-ice-rgb), 0.08);
+            border: 1px solid rgba(var(--color-ice-rgb), 0.3);
+            color: var(--color-ice);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 24px auto;
+            text-shadow: 0 0 8px rgba(var(--color-ice-rgb), 0.5);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .modal-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* HWID Reset Simulation Form */
+        .hwid-form-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .hwid-form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hwid-input-wrapper {
+            position: relative;
+        }
+
+        .hwid-input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .hwid-form-group input {
+            width: 100%;
+            background: rgba(2, 4, 9, 0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 12px 16px 12px 44px;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .hwid-form-group input:focus {
+            border-color: var(--color-ice);
+            box-shadow: 0 0 12px rgba(var(--color-ice-rgb), 0.25);
+            background: rgba(2, 4, 9, 0.8);
+        }
+
+        /* Simulation Loading State */
+        .reset-loader {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(var(--color-ice-rgb), 0.1);
+            border-radius: 50%;
+            border-top-color: var(--color-ice);
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1150px) {
+            .store-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .hwid-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 28px;
+                padding: 32px;
+            }
+            
+            .hwid-action {
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .store-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .store-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Interactive spotlight glow that follows the cursor -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Ambient background glows -->
+    <div class="ambient-glow">
+        <div class="glow-sphere glow-sphere-1"></div>
+    </div>
+
+    <div class="top-navigation-wrapper">
+    <!-- Beta Test Announcement Banner -->
+    <div class="header-notice-bar" id="noticeBeta">
+        <div class="container notice-bar-container">
+            <span class="notice-bar-badge">Бета-тест</span>
+            <span class="notice-bar-text">В ближайшее время стартует закрытое бета-тестирование клиента Funik. Следите за новостями!</span>
+        </div>
+    </div>
+    
+    <!-- Dev warning banner -->
+    <div class="header-notice-bar" id="noticeDev" style="background: rgba(239, 68, 68, 0.15); border-bottom: 1px solid rgba(239, 68, 68, 0.25);">
+        <div class="container notice-bar-container">
+            <span class="notice-bar-badge" style="background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);">Разработка</span>
+            <span class="notice-bar-text">На данный момент клиент находится в активной разработке, точная дата выхода неизвестна.</span>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="/" class="logo-link" id="logo">
+                <span class="logo-text">FUNIK</span>
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="/" class="nav-item">Главная</a>
+                <a href="/buy.html" class="nav-item active">Купить</a>
+                <a href="/#features" class="nav-item">Возможности</a>
+                <a href="/#showcase" class="nav-item">Обзор</a>
+                <a href="/#footer" class="nav-item">Контакты</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="/auth.html?mode=login" class="btn btn-secondary btn-sm" id="btnHeaderAuth">
+                    <i class="fa-solid fa-right-to-bracket"></i> Войти
+                </a>
+                <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                    <i class="fa-solid fa-cart-shopping"></i> Купить
+                </a>
+            </div>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Открыть меню">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+</div>
+
+    <!-- Main Store Content -->
+    <main class="main-content">
+        <section class="store-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Приобрести доступ</h2>
+                    <p class="section-subtitle">Выберите подходящую подписку для приватного клиента FUNIK</p>
+                </div>
+
+                <!-- Access Tiers Grid -->
+                <div class="store-grid">
+                    <!-- Tier 30 Days -->
+                    <div class="store-card">
+                        <div>
+                            <h3 class="tier-duration">30 Дней</h3>
+                            <div class="tier-subtitle">Базовый доступ</div>
+                            <div class="tier-price">
+                                <span class="price-val">299</span>
+                                <span class="price-cur">₽</span>
+                            </div>
+                            <ul class="tier-features">
+                                <li><i class="fa-solid fa-check"></i> 30 дней подписки</li>
+                                <li><i class="fa-solid fa-check"></i> Все чит-функции клиента</li>
+                                <li><i class="fa-solid fa-check"></i> Обходы серверных защит</li>
+                                <li><i class="fa-solid fa-check"></i> Оптимизация и высокий FPS</li>
+                                <li><i class="fa-solid fa-check"></i> Поддержка в Telegram/Discord</li>
+                            </ul>
+                        </div>
+                        <button onclick="openCheckoutModal('30 Дней', '299')" class="btn btn-secondary btn-block">
+                            Купить подписку
+                        </button>
+                    </div>
+
+                    <!-- Tier 60 Days -->
+                    <div class="store-card">
+                        <div>
+                            <h3 class="tier-duration">60 Дней</h3>
+                            <div class="tier-subtitle">Стандартный доступ</div>
+                            <div class="tier-price">
+                                <span class="price-val">499</span>
+                                <span class="price-cur">₽</span>
+                            </div>
+                            <ul class="tier-features">
+                                <li><i class="fa-solid fa-check"></i> 60 дней подписки</li>
+                                <li><i class="fa-solid fa-check"></i> Все чит-функции клиента</li>
+                                <li><i class="fa-solid fa-check"></i> Обходы серверных защит</li>
+                                <li><i class="fa-solid fa-check"></i> Оптимизация и высокий FPS</li>
+                                <li><i class="fa-solid fa-check"></i> Поддержка в Telegram/Discord</li>
+                            </ul>
+                        </div>
+                        <button onclick="openCheckoutModal('60 Дней', '499')" class="btn btn-secondary btn-block">
+                            Купить подписку
+                        </button>
+                    </div>
+
+                    <!-- Tier 90 Days -->
+                    <div class="store-card popular">
+                        <div class="card-badge">Выгодно</div>
+                        <div>
+                            <h3 class="tier-duration">90 Дней</h3>
+                            <div class="tier-subtitle">Продленный доступ</div>
+                            <div class="tier-price">
+                                <span class="price-val">699</span>
+                                <span class="price-cur">₽</span>
+                            </div>
+                            <ul class="tier-features">
+                                <li><i class="fa-solid fa-check"></i> 90 дней подписки</li>
+                                <li><i class="fa-solid fa-check"></i> Все чит-функции клиента</li>
+                                <li><i class="fa-solid fa-check"></i> Обходы серверных защит</li>
+                                <li><i class="fa-solid fa-check"></i> Оптимизация и высокий FPS</li>
+                                <li><i class="fa-solid fa-check"></i> Поддержка в Telegram/Discord</li>
+                            </ul>
+                        </div>
+                        <button onclick="openCheckoutModal('90 Дней', '699')" class="btn btn-primary btn-block">
+                            Купить подписку
+                        </button>
+                    </div>
+
+                    <!-- Tier Forever -->
+                    <div class="store-card">
+                        <div>
+                            <h3 class="tier-duration">Навсегда</h3>
+                            <div class="tier-subtitle">Безлимитный доступ</div>
+                            <div class="tier-price">
+                                <span class="price-val">1000</span>
+                                <span class="price-cur">₽</span>
+                            </div>
+                            <ul class="tier-features">
+                                <li><i class="fa-solid fa-check"></i> Пожизненная подписка</li>
+                                <li><i class="fa-solid fa-check"></i> Все чит-функции клиента</li>
+                                <li><i class="fa-solid fa-check"></i> Обходы серверных защит</li>
+                                <li><i class="fa-solid fa-check"></i> Оптимизация и высокий FPS</li>
+                                <li><i class="fa-solid fa-check"></i> Приоритетная поддержка</li>
+                            </ul>
+                        </div>
+                        <button onclick="openCheckoutModal('Навсегда', '1000')" class="btn btn-secondary btn-block">
+                            Купить навсегда
+                        </button>
+                    </div>
+                </div>
+
+                <!-- HWID Reset Section -->
+                <div class="hwid-section">
+                    <div class="hwid-info">
+                        <span class="hwid-badge">Утилита</span>
+                        <h3 class="hwid-title">Сброс HWID</h3>
+                        <p class="hwid-desc">
+                            Сменили комплектующие вашего компьютера или перешли на новое устройство? Сбросьте привязку вашего Hardware ID в системе для мгновенного восстановления доступа к лаунчеру.
+                        </p>
+                    </div>
+                    <div class="hwid-action">
+                        <div class="hwid-price">
+                            <span class="hwid-price-val">150</span>
+                            <span class="hwid-price-cur">₽</span>
+                        </div>
+                        <button onclick="openHwidModal()" class="btn btn-secondary">
+                            <i class="fa-solid fa-arrows-rotate"></i> Сбросить привязку
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#" class="footer-logo">FUNIK</a>
+                <p class="footer-desc">Приватный игровой клиент нового поколения с максимальным FPS, передовыми функциями и встроенной защитой сессий.</p>
+            </div>
+            
+            <div class="footer-links-group">
+                <div class="footer-links-col">
+                    <h4>Навигация</h4>
+                    <a href="/">Главная</a>
+                    <a href="/buy.html">Купить</a>
+                    <a href="/#features">Возможности</a>
+                    <a href="/#showcase">Обзор</a>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Документы</h4>
+                    <a href="/privacy.html">Политика конфиденциальности</a>
+                    <a href="#">Условия использования</a>
+                    <a href="#">Публичная оферта</a>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Контакты</h4>
+                    <a href="mailto:support@funik.xyz" class="contact-link"><i class="fa-solid fa-envelope"></i> Email</a>
+                    <a href="https://t.me/funikdll" target="_blank" class="contact-link"><i class="fa-solid fa-paper-plane"></i> Telegram</a>
+                    <a href="https://discord.gg/Zp9p7eGHM6" target="_blank" class="contact-link"><i class="fa-brands fa-discord"></i> Discord</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p class="copyright">© 2026 Funik. Все права защищены. Разработано в современном стиле.</p>
+                <div class="footer-bottom-badge">v1.0.0-Beta</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Subscription Checkout Modal -->
+    <div class="store-modal" id="checkoutModal">
+        <div class="modal-content">
+            <button onclick="closeModal('checkoutModal')" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+            <h3 class="modal-title" id="modalTierTitle">Покупка подписки</h3>
+            <p class="modal-desc" id="modalTierDesc">Оформление доступа к клиенту FUNIK.</p>
+            
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px; margin-bottom: 28px;">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-align: center;">
+                    В данный момент на период закрытого бета-теста <strong>оплата подписок отключена</strong>. Вы можете получить полный неограниченный бета-доступ к клиенту <strong>абсолютно бесплатно</strong>!
+                </p>
+            </div>
+
+            <div id="checkoutModalButtonContainer">
+                <a href="/auth.html?mode=register" class="btn btn-primary btn-block btn-lg">
+                    <i class="fa-solid fa-user-plus"></i> Зарегистрироваться бесплатно
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Required Modal -->
+    <div class="store-modal" id="authRequiredModal">
+        <div class="modal-content">
+            <button onclick="closeModal('authRequiredModal')" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-icon"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="modal-title">Требуется авторизация</h3>
+            <p class="modal-desc">Для совершения покупки или сброса HWID необходимо войти в аккаунт.</p>
+            
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px; margin-bottom: 28px;">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-align: center;">
+                    Пожалуйста, войдите в свой личный кабинет или создайте новый аккаунт, чтобы продолжить.
+                </p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <a href="/auth.html?mode=login" class="btn btn-primary btn-block btn-lg">
+                    <i class="fa-solid fa-right-to-bracket"></i> Войти
+                </a>
+                <a href="/auth.html?mode=register" class="btn btn-secondary btn-block btn-lg">
+                    <i class="fa-solid fa-user-plus"></i> Зарегистрироваться
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HWID Reset Modal -->
+    <div class="store-modal" id="hwidModal">
+        <div class="modal-content">
+            <button onclick="closeModal('hwidModal')" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="hwidFormState">
+                <div class="modal-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                <h3 class="modal-title">Сброс привязки HWID</h3>
+                <p class="modal-desc">Введите ваш игровой никнейм для мгновенного сброса Hardware ID.</p>
+                
+                <form onsubmit="handleHwidReset(event)">
+                    <div class="hwid-form-group">
+                        <label for="hwidNickname">Ваш игровой никнейм</label>
+                        <div class="hwid-input-wrapper">
+                            <input type="text" id="hwidNickname" required placeholder="Введите ник, например: FunikPlayer">
+                            <i class="fa-solid fa-user-tag" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: left;">
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">
+                            <i class="fa-solid fa-circle-info" style="color: var(--color-ice); margin-right: 4px;"></i> 
+                            На этапе бета-тестирования сброс привязки предоставляется <strong>бесплатно</strong>. Ограничение на сброс — 1 раз в 12 часов для одного аккаунта.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        Сбросить привязку бесплатно
+                    </button>
+                </form>
+            </div>
+
+            <!-- Loading Simulation State -->
+            <div class="reset-loader" id="hwidLoadingState">
+                <div class="spinner"></div>
+                <div class="loader-text" id="loaderStatus">Подключение к серверу...</div>
+            </div>
+
+            <!-- Success State -->
+            <div id="hwidSuccessState" style="display: none;">
+                <div class="success-icon-container" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(34, 197, 94, 0.1); border: 2px solid #22c55e; color: #22c55e; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 24px auto;">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="modal-title">Сброс выполнен!</h3>
+                <p class="modal-desc" id="hwidSuccessMessage">Идентификатор оборудования успешно сброшен для аккаунта.</p>
+                <button onclick="closeModal('hwidModal')" class="btn btn-secondary btn-block btn-lg">
+                    Отлично
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background and UI script -->
+    <script>
+        // Dynamic Navbar / Notice Header Height Calculation
+        const topWrapper = document.querySelector('.top-navigation-wrapper');
+        function updateNavHeightVar() {
+            if (topWrapper) {
+                document.documentElement.style.setProperty('--nav-wrapper-height', `${topWrapper.offsetHeight}px`);
+            }
+        }
+        window.addEventListener('resize', updateNavHeightVar);
+        window.addEventListener('DOMContentLoaded', updateNavHeightVar);
+        setTimeout(updateNavHeightVar, 100);
+        setTimeout(updateNavHeightVar, 300);
+
+        // Interactive cursor light spotlight glow
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let currentX = mouseX;
+        let currentY = mouseY;
+        const easeSpeed = 0.08;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateSpotlight() {
+            currentX += (mouseX - currentX) * easeSpeed;
+            currentY += (mouseY - currentY) * easeSpeed;
+            if (cursorGlow) {
+                cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+            }
+            requestAnimationFrame(animateSpotlight);
+        }
+        animateSpotlight();
+
+        const API_BASE = window.location.origin;
+
+        // Helper to check if user is logged in
+        function isUserLoggedIn() {
+            return localStorage.getItem('funik_logged_in_user') !== null;
+        }
+
+        // Modal triggers
+        function openCheckoutModal(tierName, priceVal) {
+            if (!isUserLoggedIn()) {
+                document.getElementById('authRequiredModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                return;
+            }
+            document.getElementById('modalTierTitle').innerText = `Подписка: ${tierName}`;
+            document.getElementById('modalTierDesc').innerHTML = `Оформление доступа на срок <strong>${tierName}</strong> за <strong>${priceVal} ₽</strong>`;
+            
+            // Reset modal layout to initial in case success was shown
+            const modalContent = document.getElementById('checkoutModal').querySelector('.modal-content');
+            modalContent.innerHTML = `
+                <button onclick="closeModal('checkoutModal')" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+                <div class="modal-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+                <h3 class="modal-title" id="modalTierTitle">Подписка: ${tierName}</h3>
+                <p class="modal-desc" id="modalTierDesc">Оформление доступа на срок <strong>${tierName}</strong> за <strong>${priceVal} ₽</strong></p>
+                
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px; margin-bottom: 28px;">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-align: center;">
+                        В данный момент на период закрытого бета-теста <strong>оплата подписок отключена</strong>. Вы можете получить полный неограниченный бета-доступ к клиенту <strong>абсолютно бесплатно</strong>!
+                    </p>
+                </div>
+                
+                <div id="checkoutModalButtonContainer">
+                    <button onclick="purchaseSubscription('${tierName}')" class="btn btn-primary btn-block btn-lg" style="width: 100%;">
+                        <i class="fa-solid fa-circle-check"></i> Активировать подписку бесплатно
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('checkoutModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        async function purchaseSubscription(tierName) {
+            const username = localStorage.getItem('funik_logged_in_user');
+            const token = localStorage.getItem('funik_session_token');
+            if (!username) return;
+            
+            const btnContainer = document.getElementById('checkoutModalButtonContainer');
+            if (btnContainer) {
+                btnContainer.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 0;">
+                        <div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>
+                        <span style="font-size: 0.95rem; color: var(--text-primary);">Инициализация транзакции...</span>
+                    </div>
+                `;
+            }
+            
+            try {
+                if (btnContainer) {
+                    btnContainer.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 0;">
+                            <div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>
+                            <span style="font-size: 0.95rem; color: var(--text-primary);">Активация лицензии на сервере...</span>
+                        </div>
+                    `;
+                }
+
+                // Call actual backend to write user subscription tier
+                const response = await fetch(`${API_BASE}/api/auth/profile/update`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        token: token,
+                        subscription: { tier: tierName }
+                    })
+                });
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Update in simulated local database for UI integrity
+                    const users = JSON.parse(localStorage.getItem('funik_users') || '[]');
+                    const index = users.findIndex(u => u.username.toLowerCase() === username.toLowerCase());
+                    if (index !== -1) {
+                        users[index].subscription = { tier: tierName, expires: 'Навсегда' };
+                        users[index].subSignature = generateSubSignature(username, tierName);
+                        localStorage.setItem('funik_users', JSON.stringify(users));
+                    }
+                    
+                    // Show success screen in modal
+                    const modalContent = document.getElementById('checkoutModal').querySelector('.modal-content');
+                    if (modalContent) {
+                        modalContent.innerHTML = `
+                            <button onclick="closeModal('checkoutModal'); window.location.reload();" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+                            <div class="success-icon-container" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(34, 197, 94, 0.1); border: 2px solid #22c55e; color: #22c55e; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 24px auto; box-shadow: 0 0 20px rgba(34, 197, 94, 0.25);">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <h3 class="modal-title">Подписка активирована!</h3>
+                            <p class="modal-desc">Лицензия <strong>${tierName}</strong> успешно активирована для вашего аккаунта <strong>${username}</strong>.</p>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+                                <a href="/profile.html" class="btn btn-primary btn-block btn-lg" style="width: 100%;">
+                                    <i class="fa-solid fa-user"></i> В личный кабинет (Скачать лаунчер)
+                                </a>
+                                <button onclick="closeModal('checkoutModal'); window.location.reload();" class="btn btn-secondary btn-block btn-lg" style="width: 100%;">
+                                    Вернуться в магазин
+                                </button>
+                            </div>
+                        `;
+                    }
+                    
+                    // Update header actions
+                    updateAuthState();
+                } else {
+                    alert(data.message || 'Ошибка активации подписки на сервере.');
+                    window.location.reload();
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Не удалось связаться с сервером активации подписок.');
+                window.location.reload();
+            }
+        }
+
+        function openHwidModal() {
+            if (!isUserLoggedIn()) {
+                document.getElementById('authRequiredModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                return;
+            }
+            
+            // Reset states
+            document.getElementById('hwidFormState').style.display = 'block';
+            document.getElementById('hwidLoadingState').style.display = 'none';
+            document.getElementById('hwidSuccessState').style.display = 'none';
+            
+            // Pre-fill nickname with the logged-in user
+            const loggedInUser = localStorage.getItem('funik_logged_in_user');
+            document.getElementById('hwidNickname').value = loggedInUser || '';
+            
+            document.getElementById('hwidModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Dynamic user state check in buy.html
+        function updateAuthState() {
+            const loggedInUser = localStorage.getItem('funik_logged_in_user');
+            const users = JSON.parse(localStorage.getItem('funik_users') || '[]');
+            const user = loggedInUser ? users.find(u => u.username.toLowerCase() === loggedInUser.toLowerCase()) : null;
+            
+            let hasSub = false;
+            if (user && user.subscription) {
+                const expectedSig = generateSubSignature(user.username, user.subscription.tier);
+                if (user.subSignature === expectedSig) {
+                    hasSub = true;
+                } else {
+                    user.subscription = null;
+                    user.subSignature = generateSubSignature(user.username, null);
+                    localStorage.setItem('funik_users', JSON.stringify(users));
+                }
+            }
+            
+            const headerActions = document.querySelector('.header-actions');
+            if (headerActions) {
+                if (loggedInUser) {
+                    if (hasSub) {
+                        headerActions.innerHTML = `
+                            <a href="/profile.html" class="btn btn-secondary btn-sm" id="btnHeaderUser">
+                                <i class="fa-solid fa-user"></i> Аккаунт
+                            </a>
+                            <a href="/FunikLoader.exe" class="btn btn-primary btn-sm" id="btnHeaderDownload" download>
+                                <i class="fa-solid fa-download"></i> Скачать
+                            </a>
+                        `;
+                    } else {
+                        headerActions.innerHTML = `
+                            <a href="/profile.html" class="btn btn-secondary btn-sm" id="btnHeaderUser">
+                                <i class="fa-solid fa-user"></i> Аккаунт
+                            </a>
+                            <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                                <i class="fa-solid fa-cart-shopping"></i> Купить
+                            </a>
+                        `;
+                    }
+                } else {
+                    headerActions.innerHTML = `
+                        <a href="/auth.html?mode=login" class="btn btn-secondary btn-sm" id="btnHeaderAuth">
+                            <i class="fa-solid fa-right-to-bracket"></i> Войти
+                        </a>
+                        <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                            <i class="fa-solid fa-cart-shopping"></i> Купить
+                        </a>
+                    `;
+                }
+            }
+        }
+
+        function handleLogout(e) {
+            e.preventDefault();
+            localStorage.removeItem('funik_logged_in_user');
+            window.location.reload();
+        }
+
+        // Run on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateAuthState();
+            
+            // Check query param action=hwid
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('action') === 'hwid') {
+                openHwidModal();
+            }
+        });
+
+        // HWID Reset simulation handler
+        function handleHwidReset(event) {
+            event.preventDefault();
+            
+            const nick = document.getElementById('hwidNickname').value.trim();
+            if (!nick) return;
+
+            const users = JSON.parse(localStorage.getItem('funik_users') || '[]');
+            const user = users.find(u => u.username.toLowerCase() === nick.toLowerCase());
+            if (!user) {
+                alert('Пользователь с таким никнеймом не найден!');
+                return;
+            }
+            
+            if (!user.hwid || user.hwid === 'Не привязан (Запустите лаунчер)' || user.hwid === 'Ожидает привязки при первом запуске') {
+                alert('Для этого аккаунта еще не привязан HWID! Запустите лаунчер, чтобы привязать устройство.');
+                return;
+            }
+
+            const formState = document.getElementById('hwidFormState');
+            const loadingState = document.getElementById('hwidLoadingState');
+            const successState = document.getElementById('hwidSuccessState');
+            const loaderStatus = document.getElementById('loaderStatus');
+
+            // Hide form, show loader
+            formState.style.display = 'none';
+            loadingState.style.display = 'flex';
+
+            // Phase 1 loader text
+            loaderStatus.innerText = 'Установка защищенного соединения...';
+            
+            // Simulation timing sequence
+            setTimeout(() => {
+                loaderStatus.innerText = 'Поиск активной привязки для никнейма ' + nick + '...';
+                
+                setTimeout(() => {
+                    loaderStatus.innerText = 'Сброс Hardware ID и очистка сессий...';
+                    
+                    setTimeout(() => {
+                        // Update in DB!
+                        const usersList = JSON.parse(localStorage.getItem('funik_users') || '[]');
+                        const index = usersList.findIndex(u => u.username.toLowerCase() === nick.toLowerCase());
+                        if (index !== -1) {
+                            usersList[index].hwid = 'Не привязан (Запустите лаунчер)';
+                            localStorage.setItem('funik_users', JSON.stringify(usersList));
+                        }
+
+                        // Show success state
+                        loadingState.style.display = 'none';
+                        document.getElementById('hwidSuccessMessage').innerHTML = `Аппаратный идентификатор оборудования (HWID) для игрока <strong>${nick}</strong> успешно обнулен. Вы можете авторизоваться с любого компьютера!`;
+                        successState.style.display = 'block';
+                    }, 1200);
+                }, 1000);
+            }, 800);
+        }
+
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (mobileToggle && navMenu) {
+            mobileToggle.addEventListener('click', () => {
+                const isActive = navMenu.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+                document.body.style.overflow = isActive ? 'hidden' : '';
+            });
+        }
+    </script>
+</body>
+</html>

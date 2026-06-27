@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUNIK — Авторизация</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Link Global Style -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Custom page styles for Auth Portal */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .auth-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-glass-hover);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(var(--color-primary-rgb), 0.15);
+            transition: var(--transition-smooth);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-ice) 100%);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .auth-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tabs styling */
+        .auth-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 28px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 10px 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition-fast);
+        }
+
+        .auth-tab.active {
+            background: rgba(var(--color-primary-rgb), 0.15);
+            border: 1px solid rgba(var(--color-ice-rgb), 0.2);
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(var(--color-ice-rgb), 0.5);
+        }
+
+        /* Forms */
+        .auth-form-panel {
+            display: none;
+        }
+
+        .auth-form-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition-fast);
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(2, 4, 9, 0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 12px 16px 12px 44px;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .form-group input:focus {
+            border-color: var(--color-ice);
+            box-shadow: 0 0 12px rgba(var(--color-ice-rgb), 0.25);
+            background: rgba(2, 4, 9, 0.8);
+        }
+
+        .form-group input:focus ~ i {
+            color: var(--color-ice);
+        }
+
+        /* Message box */
+        .auth-message {
+            margin-top: 20px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .auth-message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .auth-message.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        /* Success screen overlays */
+        .auth-success-state {
+            display: none;
+            text-align: center;
+            animation: scaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .success-icon-container {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.1);
+            border: 2px solid var(--color-ice);
+            color: var(--color-ice);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 24px auto;
+            text-shadow: 0 0 10px rgba(var(--color-ice-rgb), 0.5);
+            box-shadow: 0 0 20px rgba(var(--color-ice-rgb), 0.2);
+        }
+
+        .auth-success-state h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .auth-success-state p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .auth-download-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-glass-hover);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .auth-download-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .auth-download-info {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        /* Footer links inside card */
+        .auth-card-footer {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-glass);
+            text-align: center;
+        }
+
+        .auth-card-footer a {
+            color: var(--color-ice);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .auth-card-footer a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
+        /* External footer */
+        .auth-external-footer {
+            margin-top: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .auth-back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .auth-back-link:hover {
+            color: #ffffff;
+        }
+
+        .auth-social-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .auth-social-row a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .auth-social-row a:hover {
+            color: #ffffff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Captcha styling */
+        .captcha-container {
+            background: rgba(2, 4, 9, 0.4);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .captcha-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .captcha-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .captcha-checkbox-wrapper input {
+            display: none;
+        }
+
+        .captcha-checkbox-custom {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--text-muted);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .captcha-checkbox-wrapper:hover .captcha-checkbox-custom {
+            border-color: var(--color-ice);
+            box-shadow: 0 0 8px rgba(var(--color-ice-rgb), 0.3);
+        }
+
+        .captcha-check-icon {
+            font-size: 0.8rem;
+            color: #4ade80;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute;
+        }
+
+        .captcha-spinner-icon {
+            font-size: 0.8rem;
+            color: var(--color-ice);
+            display: none;
+            position: absolute;
+        }
+
+        .captcha-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition-fast);
+        }
+
+        .captcha-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            gap: 4px;
+        }
+
+        .captcha-brand i {
+            font-size: 1rem;
+            color: var(--color-ice);
+            opacity: 0.8;
+        }
+
+        /* Challenge panel */
+        .captcha-challenge {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            margin-top: 0;
+            border-top: 1px solid transparent;
+            padding-top: 0;
+        }
+
+        .captcha-challenge.active {
+            max-height: 150px;
+            opacity: 1;
+            margin-top: 12px;
+            border-top: 1px solid var(--border-glass);
+            padding-top: 12px;
+        }
+
+        .captcha-challenge-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .captcha-challenge-question {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .captcha-challenge-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .captcha-challenge-input-row input {
+            flex: 1;
+            background: rgba(2, 4, 9, 0.6) !important;
+            border: 1px solid var(--border-glass) !important;
+            padding: 8px 12px !important;
+            border-radius: 8px !important;
+            font-size: 0.95rem !important;
+        }
+
+        .captcha-challenge-input-row button {
+            padding: 8px 16px !important;
+            border-radius: 8px !important;
+            font-size: 0.85rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0 !important;
+            width: auto !important;
+        }
+
+        .captcha-challenge-error {
+            font-size: 0.75rem;
+            color: #f87171;
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
+        }
+
+        /* When verified */
+        .captcha-container.verified {
+            border-color: rgba(34, 197, 94, 0.25);
+            background: rgba(34, 197, 94, 0.03);
+        }
+
+        .captcha-container.verified .captcha-checkbox-custom {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .captcha-container.verified .captcha-check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .captcha-container.verified .captcha-text {
+            color: #4ade80;
+        }
+    </style>
+</head>
+<body>
+    <!-- Interactive spotlight glow that follows the cursor -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Ambient background glows -->
+    <div class="ambient-glow">
+        <div class="glow-sphere glow-sphere-1"></div>
+    </div>
+
+    <div class="auth-container">
+        <!-- Main Form Card -->
+        <div class="auth-card" id="authCard">
+            <div class="auth-header">
+                <a href="/" class="auth-logo">FUNIK</a>
+                <div class="auth-subtitle">Личный кабинет</div>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('login')">Вход</button>
+                <button class="auth-tab" onclick="switchTab('register')">Регистрация</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form-panel active" id="loginPanel">
+                <form onsubmit="handleLoginSubmit(event)">
+                    <div class="form-group">
+                        <label for="loginUser">Имя пользователя / Email</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="loginUser" required placeholder="Ваш ник или почта" autocomplete="username">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPass">Пароль</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="loginPass" required placeholder="••••••••" autocomplete="current-password">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                    </div>
+                    <!-- Captcha Widget for Login -->
+                    <div class="captcha-container" id="loginCaptchaContainer">
+                        <div class="captcha-box">
+                            <label class="captcha-checkbox-wrapper">
+                                <input type="checkbox" id="loginCaptchaCheckbox" onchange="handleCaptchaClick('login')">
+                                <span class="captcha-checkbox-custom">
+                                    <i class="fa-solid fa-check captcha-check-icon"></i>
+                                    <i class="fa-solid fa-spinner fa-spin captcha-spinner-icon"></i>
+                                </span>
+                                <span class="captcha-text">Я не робот</span>
+                            </label>
+                            <div class="captcha-brand">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>FunikSecure</span>
+                            </div>
+                        </div>
+                        
+                        <div class="captcha-challenge" id="loginCaptchaChallenge">
+                            <div class="captcha-challenge-title">Решите простой пример:</div>
+                            <div class="captcha-challenge-question" id="loginCaptchaQuestion">5 + 4 = ?</div>
+                            <div class="captcha-challenge-input-row">
+                                <input type="number" id="loginCaptchaAnswer" placeholder="Ответ" onkeydown="handleCaptchaKeydown(event, 'login')">
+                                <button type="button" class="btn btn-primary" onclick="verifyCaptchaAnswer('login')">ОК</button>
+                            </div>
+                            <div class="captcha-challenge-error" id="loginCaptchaError">Неверно, попробуйте еще раз!</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 10px; width: 100%;">
+                        <i class="fa-solid fa-right-to-bracket"></i> Войти
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form-panel" id="registerPanel">
+                <form onsubmit="handleRegisterSubmit(event)">
+                    <div class="form-group">
+                        <label for="regUser">Имя пользователя (Никнейм в игре)</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="regUser" required placeholder="Пример: FunikPlayer" autocomplete="username">
+                            <i class="fa-solid fa-user-tag"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Электронная почта</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="regEmail" required placeholder="example@mail.ru" autocomplete="email">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPass">Пароль</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="regPass" required placeholder="Не менее 6 символов" autocomplete="new-password">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="regConfirm">Подтверждение пароля</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="regConfirm" required placeholder="Повторите пароль" autocomplete="new-password">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+                    <!-- Captcha Widget for Register -->
+                    <div class="captcha-container" id="regCaptchaContainer">
+                        <div class="captcha-box">
+                            <label class="captcha-checkbox-wrapper">
+                                <input type="checkbox" id="regCaptchaCheckbox" onchange="handleCaptchaClick('reg')">
+                                <span class="captcha-checkbox-custom">
+                                    <i class="fa-solid fa-check captcha-check-icon"></i>
+                                    <i class="fa-solid fa-spinner fa-spin captcha-spinner-icon"></i>
+                                </span>
+                                <span class="captcha-text">Я не робот</span>
+                            </label>
+                            <div class="captcha-brand">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>FunikSecure</span>
+                            </div>
+                        </div>
+                        
+                        <div class="captcha-challenge" id="regCaptchaChallenge">
+                            <div class="captcha-challenge-title">Решите простой пример:</div>
+                            <div class="captcha-challenge-question" id="regCaptchaQuestion">5 + 4 = ?</div>
+                            <div class="captcha-challenge-input-row">
+                                <input type="number" id="regCaptchaAnswer" placeholder="Ответ" onkeydown="handleCaptchaKeydown(event, 'reg')">
+                                <button type="button" class="btn btn-primary" onclick="verifyCaptchaAnswer('reg')">ОК</button>
+                            </div>
+                            <div class="captcha-challenge-error" id="regCaptchaError">Неверно, попробуйте еще раз!</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 10px; width: 100%;">
+                        <i class="fa-solid fa-user-plus"></i> Зарегистрироваться
+                    </button>
+                </form>
+            </div>
+
+            <!-- Error/Success Messages -->
+            <div class="auth-message" id="authMsg"></div>
+
+            <div class="auth-card-footer">
+                <a href="/"><i class="fa-solid fa-house-chimney"></i> Вернуться на главную</a>
+            </div>
+        </div>
+
+        <!-- Success Screen Overlay -->
+        <div class="auth-card auth-success-state" id="successCard">
+            <div class="success-icon-container">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h2 id="successTitle">Регистрация успешна!</h2>
+            <p id="successDesc">Ваш аккаунт успешно создан и готов к игре. Подтверждение электронной почты не требуется.</p>
+
+            <div class="auth-download-box" id="authSuccessActionBox">
+                <!-- Dynamically populated based on subscription -->
+            </div>
+
+            <div class="auth-card-footer">
+                <a href="/"><i class="fa-solid fa-arrow-left"></i> На главную страницу</a>
+            </div>
+        </div>
+
+        <!-- External footer (no Nursultan links!) -->
+        <div class="auth-external-footer">
+            <a href="/" class="auth-back-link">
+                <i class="fa-solid fa-arrow-left"></i> Назад
+            </a>
+            <div class="auth-social-row">
+                <a href="https://t.me/funikdll" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
+                <span>•</span>
+                <a href="https://discord.gg/Zp9p7eGHM6" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background and UI script -->
+    <script>
+        const API_BASE = window.location.origin;
+        // Captcha State
+        let captchaVerified = {
+            login: false,
+            reg: false
+        };
+        let captchaId = {
+            login: '',
+            reg: ''
+        };
+        let captchaAnswerVal = {
+            login: '',
+            reg: ''
+        };
+
+        async function generateCaptchaQuestion(prefix) {
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/captcha/get`);
+                const data = await response.json();
+                if (data.success) {
+                    captchaId[prefix] = data.captcha_id;
+                    document.getElementById(`${prefix}CaptchaQuestion`).innerText = data.question;
+                    document.getElementById(`${prefix}CaptchaAnswer`).value = '';
+                    document.getElementById(`${prefix}CaptchaError`).style.display = 'none';
+                } else {
+                    document.getElementById(`${prefix}CaptchaQuestion`).innerText = "Ошибка загрузки капчи";
+                }
+            } catch (err) {
+                console.error("Captcha fetch error:", err);
+                document.getElementById(`${prefix}CaptchaQuestion`).innerText = "Ошибка соединения";
+            }
+        }
+
+        function handleCaptchaClick(prefix) {
+            const checkbox = document.getElementById(`${prefix}CaptchaCheckbox`);
+            const container = document.getElementById(`${prefix}CaptchaContainer`);
+            
+            if (captchaVerified[prefix]) {
+                checkbox.checked = true;
+                return;
+            }
+            
+            checkbox.checked = false;
+            const spinner = container.querySelector('.captcha-spinner-icon');
+            if (spinner) spinner.style.display = 'block';
+            
+            setTimeout(() => {
+                if (spinner) spinner.style.display = 'none';
+                generateCaptchaQuestion(prefix);
+                document.getElementById(`${prefix}CaptchaChallenge`).classList.add('active');
+            }, 600);
+        }
+
+        async function verifyCaptchaAnswer(prefix) {
+            const answerInput = document.getElementById(`${prefix}CaptchaAnswer`);
+            const answer = answerInput.value.trim();
+            const errorEl = document.getElementById(`${prefix}CaptchaError`);
+            
+            if (!answer) {
+                errorEl.innerText = "Введите ответ!";
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/captcha/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ captcha_id: captchaId[prefix], answer: answer })
+                });
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    captchaVerified[prefix] = true;
+                    captchaAnswerVal[prefix] = answer;
+                    document.getElementById(`${prefix}CaptchaChallenge`).classList.remove('active');
+                    const checkbox = document.getElementById(`${prefix}CaptchaCheckbox`);
+                    checkbox.checked = true;
+                    document.getElementById(`${prefix}CaptchaContainer`).classList.add('verified');
+                } else {
+                    errorEl.innerText = data.message || "Неверно, попробуйте еще раз!";
+                    errorEl.style.display = 'block';
+                    generateCaptchaQuestion(prefix);
+                }
+            } catch (err) {
+                console.error("Captcha verification failed:", err);
+                errorEl.innerText = "Не удалось связаться с сервером.";
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function handleCaptchaKeydown(event, prefix) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                verifyCaptchaAnswer(prefix);
+            }
+        }
+
+        // Tab switching logic
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const panels = document.querySelectorAll('.auth-form-panel');
+            const msg = document.getElementById('authMsg');
+            
+            // Hide message
+            msg.style.display = 'none';
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            panels.forEach(panel => panel.classList.remove('active'));
+
+            // Reset open captcha panels
+            document.getElementById('loginCaptchaChallenge').classList.remove('active');
+            document.getElementById('regCaptchaChallenge').classList.remove('active');
+
+            if (tabName === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('loginPanel').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('registerPanel').classList.add('active');
+            }
+        }
+
+        // Initialize mode based on URL query parameter (?mode=register or ?mode=login)
+        function generateSubSignature(username, tier) {
+            let str = username + '|' + (tier || 'none') + '|FUNIK_SECURE_SALT_9938';
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+                hash = hash & hash;
+            }
+            return hash.toString(16);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Clean up any passwords stored in local users database for security (vulnerability fix)
+            try {
+                const users = JSON.parse(localStorage.getItem('funik_users') || '[]');
+                let modified = false;
+                users.forEach(u => {
+                    if (u.password) {
+                        delete u.password;
+                        modified = true;
+                    }
+                });
+                if (modified) {
+                    localStorage.setItem('funik_users', JSON.stringify(users));
+                }
+            } catch (e) {
+                console.error("Local users cleanup error:", e);
+            }
+
+            const loggedInUser = localStorage.getItem('funik_logged_in_user');
+            if (loggedInUser && !window.location.search.includes('success')) {
+                window.location.href = '/profile.html';
+                return;
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            const mode = params.get('mode');
+            if (mode === 'register') {
+                switchTab('register');
+            } else {
+                switchTab('login');
+            }
+        });
+
+        // Interactive cursor light spotlight glow
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let currentX = mouseX;
+        let currentY = mouseY;
+        const easeSpeed = 0.08;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateSpotlight() {
+            currentX += (mouseX - currentX) * easeSpeed;
+            currentY += (mouseY - currentY) * easeSpeed;
+            if (cursorGlow) {
+                cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+            }
+            requestAnimationFrame(animateSpotlight);
+        }
+        animateSpotlight();
+
+        // Database simulation helper using localStorage
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('funik_users') || '[]');
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('funik_users', JSON.stringify(users));
+        }
+
+        // Simulated registration handler (Zero serverless, zero backend, 100% cloud safe)
+                // Dynamic render download/purchase action box on success
+        function renderAuthSuccessBox(username) {
+            const users = getUsers();
+            const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+            let hasSub = false;
+            if (user && user.subscription) {
+                const expectedSig = generateSubSignature(user.username, user.subscription.tier);
+                if (user.subSignature === expectedSig) {
+                    hasSub = true;
+                } else {
+                    user.subscription = null;
+                    user.subSignature = generateSubSignature(user.username, null);
+                    // Save cleaned user
+                    const usersList = getUsers();
+                    const index = usersList.findIndex(u => u.username.toLowerCase() === username.toLowerCase());
+                    if (index !== -1) {
+                        usersList[index].subscription = null;
+                        usersList[index].subSignature = user.subSignature;
+                        saveUsers(usersList);
+                    }
+                }
+            }
+            const box = document.getElementById('authSuccessActionBox');
+            if (!box) return;
+
+            if (hasSub) {
+                box.innerHTML = `
+                    <div class="auth-download-title" style="color: #4ade80;"><i class="fa-solid fa-circle-check"></i> Доступ разблокирован</div>
+                    <div class="auth-download-info" style="margin-bottom: 16px;">Поздравляем! Ваша подписка активна. Скачайте лаунчер и авторизуйтесь под своим никнеймом.</div>
+                    <a href="/FunikLoader.exe" class="btn btn-primary btn-block btn-lg" download style="width: 100%;">
+                        <i class="fa-solid fa-download"></i> Скачать Funik Launcher (.EXE)
+                    </a>
+                `;
+            } else {
+                box.innerHTML = `
+                    <div class="auth-download-title" style="color: #f87171;"><i class="fa-solid fa-lock"></i> Скачивание заблокировано</div>
+                    <div class="auth-download-info" style="margin-bottom: 16px;">Пока вы не приобретете подписку, скачивание клиента FUNIK недоступно.</div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="/buy.html" class="btn btn-primary btn-block btn-lg" style="width: 100%;">
+                            <i class="fa-solid fa-cart-shopping"></i> Перейти в магазин и купить
+                        </a>
+                        <a href="/profile.html" class="btn btn-secondary btn-block btn-lg" style="width: 100%;">
+                            <i class="fa-solid fa-user"></i> В личный кабинет
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        function handleRegisterSubmit(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('regUser').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPass').value;
+            const confirm = document.getElementById('regConfirm').value;
+            const msg = document.getElementById('authMsg');
+
+            msg.className = 'auth-message';
+            msg.style.display = 'none';
+
+            if (!username || !email || !password || !confirm) {
+                msg.innerText = 'Пожалуйста, заполните все поля!';
+                msg.classList.add('error');
+                return;
+            }
+
+            if (username.length < 3) {
+                msg.innerText = 'Никнейм должен содержать не менее 3 символов!';
+                msg.classList.add('error');
+                return;
+            }
+
+            if (password.length < 6) {
+                msg.innerText = 'Пароль должен содержать не менее 6 символов!';
+                msg.classList.add('error');
+                return;
+            }
+
+            if (password !== confirm) {
+                msg.innerText = 'Пароли не совпадают!';
+                msg.classList.add('error');
+                return;
+            }
+
+            // Verify bot captcha
+            if (!captchaVerified.reg) {
+                msg.innerText = 'Пожалуйста, подтвердите, что вы не робот!';
+                msg.classList.add('error');
+                return;
+            }
+
+            // Send registration to central API server
+            fetch(`${API_BASE}/api/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    username, 
+                    email, 
+                    password,
+                    captcha_id: captchaId.reg,
+                    captcha_answer: captchaAnswerVal.reg
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Save active session locally
+                    localStorage.setItem('funik_logged_in_user', username);
+                    
+                    // Push to local users database for compatibility (without storing password!)
+                    const users = getUsers();
+                    const index = users.findIndex(u => u.username.toLowerCase() === username.toLowerCase());
+                    const subSignature = generateSubSignature(username, null);
+                    const userObj = { username, email, avatarIndex: 0, subscription: null, subSignature: subSignature, configs: [] };
+                    
+                    if (index === -1) {
+                        users.push(userObj);
+                    } else {
+                        users[index] = { ...users[index], email, subSignature };
+                        delete users[index].password; // remove plaintext password if existed
+                    }
+                    saveUsers(users);
+
+                    renderAuthSuccessBox(username);
+
+                    // Show success screen
+                    document.getElementById('authCard').style.display = 'none';
+                    document.getElementById('successTitle').innerText = 'Регистрация успешна!';
+                    document.getElementById('successDesc').innerHTML = `Ваш аккаунт <strong>${username}</strong> успешно создан и готов к игре. Подтверждение электронной почты не требуется.`;
+                    document.getElementById('successCard').style.display = 'block';
+                } else {
+                    msg.innerText = data.message || 'Произошла ошибка при регистрации.';
+                    msg.classList.add('error');
+                }
+            })
+            .catch(err => {
+                console.error("Auth server connection error:", err);
+                msg.innerText = 'Не удалось подключиться к серверу авторизации.';
+                msg.classList.add('error');
+            });
+        }
+
+        // Simulated login handler connecting to real API backend
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+
+            const userOrEmail = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            const msg = document.getElementById('authMsg');
+
+            msg.className = 'auth-message';
+            msg.style.display = 'none';
+
+            if (!userOrEmail || !pass) {
+                msg.innerText = 'Пожалуйста, введите никнейм/email и пароль!';
+                msg.classList.add('error');
+                return;
+            }
+
+            // Verify bot captcha
+            if (!captchaVerified.login) {
+                msg.innerText = 'Пожалуйста, подтвердите, что вы не робот!';
+                msg.classList.add('error');
+                return;
+            }
+
+            // Authenticate with central API server
+            fetch(`${API_BASE}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: userOrEmail, password: pass })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const actualUsername = data.username || userOrEmail;
+                    // Save active session
+                    localStorage.setItem('funik_logged_in_user', actualUsername);
+                    if (data.token) {
+                        localStorage.setItem('funik_session_token', data.token);
+                    }
+
+                    // Push to local users database for compatibility (without storing password!)
+                    const users = getUsers();
+                    const index = users.findIndex(u => u.username.toLowerCase() === actualUsername.toLowerCase());
+                    const subSignature = generateSubSignature(actualUsername, null);
+                    
+                    if (index === -1) {
+                        const userObj = { username: actualUsername, email: "", avatarIndex: 0, subscription: null, subSignature: subSignature, role: data.role || 'Игрок', configs: [], id: data.id };
+                        users.push(userObj);
+                    } else {
+                        users[index].role = data.role || 'Игрок';
+                        users[index].id = data.id;
+                        // Ensure password is not stored
+                        delete users[index].password;
+                    }
+                    saveUsers(users);
+
+                    renderAuthSuccessBox(actualUsername);
+
+                    // Show login success screen
+                    document.getElementById('authCard').style.display = 'none';
+                    document.getElementById('successTitle').innerText = 'Вход выполнен!';
+                    document.getElementById('successDesc').innerHTML = `Добро пожаловать назад, <strong>${actualUsername}</strong>! Сессия успешно инициализирована.`;
+                    document.getElementById('successCard').style.display = 'block';
+                } else {
+                    msg.innerText = data.message || 'Неверное имя пользователя или пароль!';
+                    msg.classList.add('error');
+                }
+            })
+            .catch(err => {
+                console.error("Auth server connection error:", err);
+                msg.innerText = 'Не удалось подключиться к серверу авторизации.';
+                msg.classList.add('error');
+            });
+        }
+    </script>
+</body>
+</html>

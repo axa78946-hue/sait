@@ -1,0 +1,13 @@
+tunnel: 4854a1f7-2b5f-4f1f-a589-5eb49d254452
+credentials-file: /home/vxidm/.cloudflared/4854a1f7-2b5f-4f1f-a589-5eb49d254452.json
+
+ingress:
+  - hostname: funik.xyz
+    service: http://localhost:8080
+  - hostname: www.funik.xyz
+    service: http://localhost:8080
+  - hostname: ai.funik.xyz
+    service: http://localhost:8080
+  - hostname: auth.funik.xyz
+    service: http://localhost:8080
+  - service: http_status:404

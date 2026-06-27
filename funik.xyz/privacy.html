@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funik — Политика конфиденциальности</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Link Global Style -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Custom styles for Privacy Page */
+        .privacy-page-section {
+            position: relative;
+            padding: calc(var(--nav-wrapper-height, 160px) + 40px) 0 100px 0;
+            z-index: 2;
+        }
+
+        .privacy-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-glass-hover);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .privacy-content h3 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .privacy-content h3 i {
+            color: var(--color-ice);
+        }
+
+        .privacy-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .privacy-content ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .privacy-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Interactive spotlight glow that follows the cursor -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Ambient background glows -->
+    <div class="ambient-glow">
+        <div class="glow-sphere glow-sphere-1"></div>
+    </div>
+
+    <!-- Top Sticky Navigation Wrapper -->
+    <div class="top-navigation-wrapper">
+        <!-- Beta Test Announcement Banner -->
+        <div class="header-notice-bar" id="noticeBeta">
+            <div class="container notice-bar-container">
+                <span class="notice-bar-badge">Бета-тест</span>
+                <span class="notice-bar-text">В ближайшее время стартует закрытое бета-тестирование клиента Funik. Следите за новостями!</span>
+            </div>
+        </div>
+        
+        <!-- Dev warning banner -->
+        <div class="header-notice-bar" id="noticeDev" style="background: rgba(239, 68, 68, 0.15); border-bottom: 1px solid rgba(239, 68, 68, 0.25);">
+            <div class="container notice-bar-container">
+                <span class="notice-bar-badge" style="background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);">Разработка</span>
+                <span class="notice-bar-text">На данный момент клиент находится в активной разработке, точная дата выхода неизвестна.</span>
+            </div>
+        </div>
+
+        <!-- Header Navigation -->
+        <header class="header" id="header">
+            <div class="container header-container">
+                <a href="/" class="logo-link" id="logo">
+                    <span class="logo-text">FUNIK</span>
+                </a>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="/" class="nav-item">Главная</a>
+                    <a href="/buy.html" class="nav-item">Купить</a>
+                    <a href="/#features" class="nav-item">Возможности</a>
+                    <a href="/#showcase" class="nav-item">Обзор</a>
+                    <a href="/#footer" class="nav-item">Контакты</a>
+                </nav>
+
+                <div class="header-actions">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Открыть меню">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="privacy-page-section">
+            <div class="container">
+                <div class="section-header" style="text-align: center;">
+                    <h2 class="section-title">Политика конфиденциальности</h2>
+                    <p class="section-subtitle">Правила сбора, хранения и обработки пользовательских данных на проекте FUNIK</p>
+                </div>
+
+                <div class="privacy-card">
+                    <div class="privacy-content">
+                        <p style="font-size: 1.05rem; color: #ffffff; border-left: 2px solid var(--color-ice); padding-left: 16px; margin-bottom: 24px;">
+                            Настоящая политика конфиденциальности определяет порядок обработки и защиты информации о пользователях приватного Minecraft-клиента FUNIK. Мы стремимся обеспечить высокий уровень безопасности ваших личных данных.
+                        </p>
+
+                        <h3><i class="fa-solid fa-database"></i> 1. Какие данные мы собираем</h3>
+                        <p>Для обеспечения корректной работы лоадера, привязки лицензий и предотвращения злоупотреблений, мы собираем только техническую информацию:</p>
+                        <ul>
+                            <li><strong>Учетные данные</strong>: Ваш никнейм, адрес электронной почты и зашифрованный пароль, указанные при регистрации.</li>
+                            <li><strong>Hardware ID (HWID)</strong>: Уникальный хэш-идентификатор аппаратных комплектующих вашего компьютера (процессор, материнская плата, сетевая карта). HWID привязывается при первом запуске лоадера.</li>
+                        </ul>
+
+                        <h3><i class="fa-solid fa-shield-halved"></i> 2. Как мы используем собранные данные</h3>
+                        <p>Сбор данных осуществляется исключительно в целях улучшения опыта использования и безопасности:</p>
+                        <ul>
+                            <li><strong>Идентификация лицензии</strong>: Сверка вашего HWID при запуске лоадера необходима для подтверждения покупки и исключения передачи лицензии третьим лицам.</li>
+                            <li><strong>Сброс привязки</strong>: Возможность сбросить привязку HWID в случае смены деталей компьютера или переустановки операционной системы.</li>
+                        </ul>
+
+                        <h3><i class="fa-solid fa-lock"></i> 3. Безопасность и хранение данных</h3>
+                        <p>Мы используем современные методы шифрования для защиты вашей информации. Локальные сессии авторизации и подписи безопасности защищены от подделки. Мы не храним открытые пароли — все пароли хэшируются на стороне клиента перед сверкой.</p>
+
+                        <h3><i class="fa-solid fa-handshake-slash"></i> 4. Передача информации третьим лицам</h3>
+                        <p>FUNIK придерживается политики абсолютной конфиденциальности. Мы <strong>никогда не передаем, не продаем и не обмениваем</strong> собранные технические данные пользователей третьим лицам, рекламным агентствам или государственным органам.</p>
+
+                        <h3><i class="fa-solid fa-circle-info"></i> 5. Изменения политики</h3>
+                        <p>Мы оставляем за собой право вносить изменения в настоящую политику по мере развития проекта. Любые изменения будут незамедлительно опубликованы на этой странице. Рекомендуется периодически проверять её для ознакомления с актуальными правилами.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">FUNIK</a>
+                <p class="footer-desc">Приватный игровой клиент нового поколения с максимальным FPS, передовыми функциями и встроенной защитой сессий.</p>
+            </div>
+            
+            <div class="footer-links-group">
+                <div class="footer-links-col">
+                    <h4>Навигация</h4>
+                    <a href="/">Главная</a>
+                    <a href="/#features">Возможности</a>
+                    <a href="/#showcase">Обзор</a>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Документы</h4>
+                    <a href="/privacy.html">Политика конфиденциальности</a>
+                    <a href="#">Условия использования</a>
+                    <a href="#">Публичная оферта</a>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Контакты</h4>
+                    <a href="mailto:support@funik.xyz" class="contact-link"><i class="fa-solid fa-envelope"></i> Email</a>
+                    <a href="https://t.me/funikdll" target="_blank" class="contact-link"><i class="fa-solid fa-paper-plane"></i> Telegram</a>
+                    <a href="https://discord.gg/Zp9p7eGHM6" target="_blank" class="contact-link"><i class="fa-brands fa-discord"></i> Discord</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p class="copyright">© 2026 Funik. Все права защищены. Разработано в современном стиле.</p>
+                <div class="footer-bottom-badge">v1.0.0-Beta</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Background and UI script -->
+    <script>
+        // Dynamic Navbar / Notice Header Height Calculation
+        const topWrapper = document.querySelector('.top-navigation-wrapper');
+        function updateNavHeightVar() {
+            if (topWrapper) {
+                document.documentElement.style.setProperty('--nav-wrapper-height', `${topWrapper.offsetHeight}px`);
+            }
+        }
+        window.addEventListener('resize', updateNavHeightVar);
+        window.addEventListener('DOMContentLoaded', updateNavHeightVar);
+        setTimeout(updateNavHeightVar, 100);
+        setTimeout(updateNavHeightVar, 300);
+
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let currentX = mouseX;
+        let currentY = mouseY;
+        const easeSpeed = 0.08;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateSpotlight() {
+            currentX += (mouseX - currentX) * easeSpeed;
+            currentY += (mouseY - currentY) * easeSpeed;
+            if (cursorGlow) {
+                cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+            }
+            requestAnimationFrame(animateSpotlight);
+        }
+        animateSpotlight();
+
+        // Mobile toggle menu
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (mobileToggle && navMenu) {
+            mobileToggle.addEventListener('click', () => {
+                const isActive = navMenu.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+                document.body.style.overflow = isActive ? 'hidden' : '';
+            });
+        }
+
+        // Sub Signature Helper
+        function generateSubSignature(username, tier) {
+            const secretSalt = "FUNIK_SECURE_SALT_9938";
+            let str = username.toLowerCase() + "_" + (tier || "none") + "_" + secretSalt;
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = (hash << 5) - hash + str.charCodeAt(i);
+                hash |= 0;
+            }
+            return "SIG_" + Math.abs(hash).toString(16);
+        }
+
+        function updateAuthState() {
+            const loggedInUser = localStorage.getItem('funik_logged_in_user');
+            const users = JSON.parse(localStorage.getItem('funik_users') || '[]');
+            const user = loggedInUser ? users.find(u => u.username.toLowerCase() === loggedInUser.toLowerCase()) : null;
+            
+            let hasSub = false;
+            if (user && user.subscription) {
+                const expectedSig = generateSubSignature(user.username, user.subscription.tier);
+                if (user.subSignature === expectedSig) {
+                    hasSub = true;
+                } else {
+                    user.subscription = null;
+                    user.subSignature = generateSubSignature(user.username, null);
+                    localStorage.setItem('funik_users', JSON.stringify(users));
+                }
+            }
+
+            const headerActions = document.querySelector('.header-actions');
+            if (headerActions) {
+                if (loggedInUser) {
+                    if (hasSub) {
+                        headerActions.innerHTML = `
+                            <a href="/profile.html" class="btn btn-secondary btn-sm" id="btnHeaderUser">
+                                <i class="fa-solid fa-user"></i> Аккаунт
+                            </a>
+                            <a href="/FunikLoader.exe" class="btn btn-primary btn-sm" id="btnHeaderDownload" download>
+                                <i class="fa-solid fa-download"></i> Скачать
+                            </a>
+                        `;
+                    } else {
+                        headerActions.innerHTML = `
+                            <a href="/profile.html" class="btn btn-secondary btn-sm" id="btnHeaderUser">
+                                <i class="fa-solid fa-user"></i> Аккаунт
+                            </a>
+                            <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                                <i class="fa-solid fa-cart-shopping"></i> Купить
+                            </a>
+                        `;
+                    }
+                } else {
+                    headerActions.innerHTML = `
+                        <a href="/auth.html?mode=login" class="btn btn-secondary btn-sm" id="btnHeaderAuth">
+                            <i class="fa-solid fa-right-to-bracket"></i> Войти
+                        </a>
+                        <a href="/buy.html" class="btn btn-primary btn-sm" id="btnHeaderBuy">
+                            <i class="fa-solid fa-cart-shopping"></i> Купить
+                        </a>
+                    `;
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', updateAuthState);
+    </script>
+</body>
+</html>
